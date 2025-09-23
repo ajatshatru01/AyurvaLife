@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AyurvaLife - Ayurvedic Practice Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-leaf"></i>
+                <span>AyurvaLife</span>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link" data-page="home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#problem" class="nav-link" data-page="problem">Problem Statement</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#solution" class="nav-link" data-page="solution">Our Solution</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#doshas" class="nav-link" data-page="doshas">Learn Doshas</a>
+                </li>
+                <li class="nav-item" id="login-nav-item"><a href="#login" class="nav-link" data-page="login">Dietitian Login</a></li>
+                <li class="nav-item hidden" id="logout-nav-item">
+                    <a href="#" class="nav-link" onclick="logout()">Logout</a>
+                </li>
+                <li class="nav-item hidden" id="patients-nav-item">
+                    <a href="#patients" class="nav-link" data-page="patients">Patient Management</a>
+                </li>
+<li class="nav-item">
+                    <a href="#about" class="nav-link" data-page="about">About Us</a>
+                </li>
+            </ul>
+            <div class="nav-hamburger" id="nav-hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Homepage -->
+        <div id="home-page" class="page active">
+            <section class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">Comprehensive Cloud-Based Practice Management for Ayurvedic Dietitians</h1>
+                    <p class="hero-subtitle">Bridging Ancient Wisdom with Modern Technology</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn--primary" onclick="navigateToPage('login')">
+                            <i class="fas fa-sign-in-alt"></i> Dietitian Login
+                        </button>
+                        <button class="btn btn--secondary" onclick="navigateToPage('doshas')">
+                            <i class="fas fa-book"></i> Learn About Doshas
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://pplx-res.cloudinary.com/image/upload/v1754787046/pplx_project_search_images/60ec59458ae43ba145cc05e40d052251f4aeb9e3.png" alt="Ayurvedic herbs and spices">
+                </div>
+            </section>
+
+            <section class="features-overview">
+                <div class="container">
+                    <h2>Transforming Ayurvedic Healthcare</h2>
+                    <div class="feature-cards">
+                        <div class="card feature-card">
+                            <div class="card__body">
+                                <i class="fas fa-brain feature-icon"></i>
+                                <h3>AI-Powered Personalization</h3>
+                                <p>Fine-tuned LLM models provide personalized diet recommendations based on individual dosha, age, gender, and health conditions.</p>
+                            </div>
+                        </div>
+                        <div class="card feature-card">
+                            <div class="card__body">
+                                <i class="fas fa-database feature-icon"></i>
+                                <h3>Comprehensive Food Database</h3>
+                                <p>8,000+ food items covering Indian, multicultural, and international cuisines with Ayurvedic properties.</p>
+                            </div>
+                        </div>
+                        <div class="card feature-card">
+                            <div class="card__body">
+                                <i class="fas fa-chart-line feature-icon"></i>
+                                <h3>Smart Analytics</h3>
+                                <p>Automated nutrient analysis with traditional Ayurvedic dietary principles and modern nutritional science.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="stats-section">
+                <div class="container">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">8,000+</span>
+                            <span class="stat-label">Food Items</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">3</span>
+                            <span class="stat-label">Dosha Types</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">6</span>
+                            <span class="stat-label">Ayurvedic Tastes</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Cloud Access</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Problem Statement Page -->
+        <div id="problem-page" class="page">
+            <section class="page-header">
+                <div class="container">
+                    <h1>Problem Statement</h1>
+                    <p>Understanding the challenges in current Ayurvedic healthcare systems</p>
+                </div>
+            </section>
+
+            <section class="problem-content">
+                <div class="container">
+                    <div class="problem-grid">
+                        <div class="problem-item">
+                            <div class="card">
+                                <div class="card__body">
+                                    <i class="fas fa-hand-paper problem-icon"></i>
+                                    <h3>Manual Diet Chart Creation</h3>
+                                    <p>Currently, Ayurvedic hospitals rely on handwritten diet charts prescribed manually by doctors. This process is time-consuming, prone to errors, and difficult to standardize across different practitioners.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="problem-item">
+                            <div class="card">
+                                <div class="card__body">
+                                    <i class="fas fa-disconnect problem-icon"></i>
+                                    <h3>Lack of Integration</h3>
+                                    <p>Existing software solutions focus primarily on macro- and micro-nutrient tracking but fail to align with Ayurvedic nutritional concepts like doshas, rasas (tastes), and food properties.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="problem-item">
+                            <div class="card">
+                                <div class="card__body">
+                                    <i class="fas fa-clock problem-icon"></i>
+                                    <h3>Inefficiency in Practice</h3>
+                                    <p>The gap between traditional Ayurvedic principles and modern nutrition tracking creates inefficiencies, reduces accuracy, and makes it harder for practitioners to deliver holistic dietary care.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="problem-item">
+                            <div class="card">
+                                <div class="card__body">
+                                    <i class="fas fa-users problem-icon"></i>
+                                    <h3>Patient Management Challenges</h3>
+                                    <p>Tracking patient progress, dietary habits, meal frequency, bowel movements, and other critical health parameters lacks systematic digital solutions tailored for Ayurvedic practice.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="problem-impact">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>The Impact</h3>
+                                <ul>
+                                    <li>Reduced accuracy in dietary prescriptions</li>
+                                    <li>Inconsistent treatment approaches</li>
+                                    <li>Time-intensive consultation processes</li>
+                                    <li>Difficulty in tracking patient progress</li>
+                                    <li>Limited integration with modern healthcare systems</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Solution Page -->
+        <div id="solution-page" class="page">
+            <section class="page-header">
+                <div class="container">
+                    <h1>Our Solution</h1>
+                    <p>AI-Powered Ayurvedic Diet Management System</p>
+                </div>
+            </section>
+
+            <section class="solution-content">
+                <div class="container">
+                    <div class="solution-hero">
+                        <div class="solution-text">
+                            <h2>Fine-tuned LLM for Personalized Ayurvedic Recommendations</h2>
+                            <p>Our solution leverages advanced Large Language Models (LLM) fine-tuned specifically for Ayurvedic dietary principles. The system analyzes patient data including age, gender, dosha type, health conditions, and dietary preferences to generate personalized diet recommendations that align with both traditional Ayurvedic wisdom and modern nutritional science.</p>
+                        </div>
+                        <div class="solution-image">
+                            <img src="https://pplx-res.cloudinary.com/image/upload/v1754765603/pplx_project_search_images/bc8d7dcf05cdee7b5bf6179c5c917124ceceac7f.png" alt="Ayurvedic ingredients">
+                        </div>
+                    </div>
+
+                    <div class="tech-stack">
+                        <h3>Technology Stack</h3>
+                        <div class="tech-grid">
+                            <div class="tech-item">
+                                <i class="fas fa-robot"></i>
+                                <span>Machine Learning & NLP</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-cloud"></i>
+                                <span>Cloud Computing</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>Responsive Web Design</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Data Security & HIPAA</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="key-features">
+                        <h3>Key Features</h3>
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <i class="fas fa-user-cog"></i>
+                                <div>
+                                    <h4>Personalized AI Recommendations</h4>
+                                    <p>Custom diet plans based on individual dosha analysis, health history, and preferences.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-database"></i>
+                                <div>
+                                    <h4>Comprehensive Food Database</h4>
+                                    <p>8,000+ food items with Ayurvedic properties and nutritional data.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-chart-pie"></i>
+                                <div>
+                                    <h4>Automated Diet Charts</h4>
+                                    <p>Generate balanced, Ayurveda-compliant meal plans with detailed nutrient analysis.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-users-cog"></i>
+                                <div>
+                                    <h4>Patient Management</h4>
+                                    <p>Comprehensive profiles with health parameters, dietary habits, and progress tracking.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-mobile"></i>
+                                <div>
+                                    <h4>Mobile Support</h4>
+                                    <p>Cross-platform compatibility for practitioners and patients on-the-go.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-link"></i>
+                                <div>
+                                    <h4>EHR Integration</h4>
+                                    <p>Seamless integration with hospital information systems and electronic health records.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Doshas Learning Page -->
+        <div id="doshas-page" class="page">
+            <section class="page-header">
+                <div class="container">
+                    <h1>Learn About Ayurvedic Doshas</h1>
+                    <p>Discover your body constitution and understand the three fundamental energies</p>
+                </div>
+            </section>
+
+            <section class="doshas-intro">
+                <div class="container">
+                    <div class="doshas-overview">
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1756709639/pplx_project_search_images/0d9ba6d2b7a298997a8886f9eeacc9846d43ea15.png" alt="Ayurvedic doshas diagram" class="doshas-diagram">
+                        <div class="doshas-text">
+                            <p>In Ayurveda, doshas are the three fundamental energies that govern our body and mind. Each person has a unique combination of these doshas, which determines their physical characteristics, mental tendencies, and dietary needs.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doshas-content">
+                <div class="container">
+                    <div class="dosha-cards">
+                        <div class="dosha-card vata-card">
+                            <div class="card">
+                                <div class="card__body">
+                                    <div class="dosha-header">
+                                        <i class="fas fa-wind dosha-icon"></i>
+                                        <h3>Vata</h3>
+                                        <span class="dosha-elements">Ether + Air</span>
+                                    </div>
+                                    <div class="dosha-characteristics">
+                                        <h4>Physical Traits</h4>
+                                        <ul>
+                                            <li>Thin frame</li>
+                                            <li>Dry skin</li>
+                                            <li>Cold hands and feet</li>
+                                            <li>Light sleep</li>
+                                        </ul>
+                                        <h4>Mental Traits</h4>
+                                        <ul>
+                                            <li>Creative</li>
+                                            <li>Energetic</li>
+                                            <li>Quick thinking</li>
+                                            <li>Easily distracted</li>
+                                        </ul>
+                                        <h4>Dietary Recommendations</h4>
+                                        <ul>
+                                            <li>Warm, moist foods</li>
+                                            <li>Regular meal times</li>
+                                            <li>Sweet, sour, salty tastes</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dosha-card pitta-card">
+                            <div class="card">
+                                <div class="card__body">
+                                    <div class="dosha-header">
+                                        <i class="fas fa-fire dosha-icon"></i>
+                                        <h3>Pitta</h3>
+                                        <span class="dosha-elements">Fire + Water</span>
+                                    </div>
+                                    <div class="dosha-characteristics">
+                                        <h4>Physical Traits</h4>
+                                        <ul>
+                                            <li>Medium build</li>
+                                            <li>Warm body temperature</li>
+                                            <li>Good digestion</li>
+                                            <li>Sharp features</li>
+                                        </ul>
+                                        <h4>Mental Traits</h4>
+                                        <ul>
+                                            <li>Focused</li>
+                                            <li>Competitive</li>
+                                            <li>Leadership qualities</li>
+                                            <li>Goal-oriented</li>
+                                        </ul>
+                                        <h4>Dietary Recommendations</h4>
+                                        <ul>
+                                            <li>Cool, refreshing foods</li>
+                                            <li>Sweet, bitter, astringent tastes</li>
+                                            <li>Avoid spicy foods</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dosha-card kapha-card">
+                            <div class="card">
+                                <div class="card__body">
+                                    <div class="dosha-header">
+                                        <i class="fas fa-mountain dosha-icon"></i>
+                                        <h3>Kapha</h3>
+                                        <span class="dosha-elements">Earth + Water</span>
+                                    </div>
+                                    <div class="dosha-characteristics">
+                                        <h4>Physical Traits</h4>
+                                        <ul>
+                                            <li>Heavy build</li>
+                                            <li>Smooth skin</li>
+                                            <li>Steady energy</li>
+                                            <li>Strong immunity</li>
+                                        </ul>
+                                        <h4>Mental Traits</h4>
+                                        <ul>
+                                            <li>Calm</li>
+                                            <li>Patient</li>
+                                            <li>Loyal</li>
+                                            <li>Methodical</li>
+                                        </ul>
+                                        <h4>Dietary Recommendations</h4>
+                                        <ul>
+                                            <li>Light, warm foods</li>
+                                            <li>Pungent, bitter, astringent tastes</li>
+                                            <li>Minimize dairy</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dosha-quiz-section">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Discover Your Dosha</h3>
+                                <p>Take our interactive quiz to identify your primary dosha constitution.</p>
+                                <button class="btn btn--primary" onclick="startDoshaQuiz()">
+                                    <i class="fas fa-play"></i> Start Dosha Quiz
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dosha Quiz Modal -->
+            <div id="dosha-quiz-modal" class="modal hidden">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Dosha Assessment Quiz</h3>
+                        <button class="close-modal" onclick="closeDoshaQuiz()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="quiz-content">
+                            <div class="quiz-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="quiz-progress"></div>
+                                </div>
+                                <span id="question-counter">1 of 10</span>
+                            </div>
+                            <div id="quiz-question">
+                                <h4 id="question-text"></h4>
+                                <div class="quiz-options" id="quiz-options"></div>
+                            </div>
+                        </div>
+                        <div id="quiz-result" class="hidden">
+                            <h4>Your Primary Dosha:</h4>
+                            <div id="dosha-result"></div>
+                            <p id="dosha-description"></p>
+                            <button class="btn btn--secondary" onclick="restartQuiz()">Take Quiz Again</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+    <!-- About Page -->
+    <div id="about-page" class="page">
+        <section class="page-header">
+            <div class="container">
+                <h1>About AyurvaLife</h1>
+                <p>Meet the team behind the revolutionary Ayurvedic practice management system</p>
+            </div>
+        </section>
+
+        <section class="about-intro">
+            <div class="container">
+                <div class="about-story">
+                    <div class="about-text">
+                        <h2>Our Story</h2>
+                        <p>AyurvaLife was born from a vision to bridge the ancient wisdom of Ayurveda with cutting-edge technology. As a team of passionate Computer Engineering students participating in Smart India Hackathon (SIH) 2025, we recognized the critical gap between traditional Ayurvedic healthcare practices and modern digital solutions.</p>
+                        <p>Our journey began when we observed the challenges faced by Ayurvedic practitioners in managing patient care efficiently while maintaining the authenticity of ancient healing principles. This inspired us to create a comprehensive platform that honors traditional Ayurvedic wisdom while leveraging the power of AI and modern technology.</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="C:\Users\tarun\Downloads\SIH17\ABOUT.png" alt="Ayurvedic herbs and traditional medicine">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mission-vision">
+            <div class="container">
+                <div class="mission-vision-grid">
+                    <div class="card">
+                        <div class="card-body">
+                            <i class="fas fa-bullseye feature-icon"></i>
+                            <h3>Our Mission</h3>
+                            <p>To revolutionize Ayurvedic healthcare by creating an intelligent, accessible, and comprehensive practice management system that empowers practitioners to deliver personalized care while preserving the essence of traditional healing.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <i class="fas fa-eye feature-icon"></i>
+                            <h3>Our Vision</h3>
+                            <p>To become the leading platform for Ayurvedic healthcare management, making personalized traditional medicine accessible to everyone while supporting practitioners with cutting-edge tools for optimal patient care.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <i class="fas fa-heart feature-icon"></i>
+                            <h3>Our Values</h3>
+                            <ul>
+                                <li><strong>Authenticity:</strong> Preserving traditional Ayurvedic principles</li>
+                                <li><strong>Innovation:</strong> Leveraging AI and modern technology</li>
+                                <li><strong>Accessibility:</strong> Making healthcare available to all</li>
+                                <li><strong>Excellence:</strong> Delivering the highest quality solutions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="team-section">
+            <div class="container">
+                <h2>Meet Our Team</h2>
+                <p class="team-intro">We are a dedicated team of Computer Engineering students from VJTI Mumbai, united by our passion for technology and healthcare innovation.</p>
+
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="member-avatar">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <h3>Tarun</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="member-avatar">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <h3>Utsav</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="member-avatar">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <h3>Tanmay</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="member-avatar">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <h3>Kavya</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="member-avatar">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <h3>Rudrakshi</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="member-avatar">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <h3>Nihira</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="achievements-section">
+            <div class="container">
+                <h2>Our Journey</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>Smart India Hackathon 2025</h3>
+                            <p>Selected to participate in SIH 2025, representing innovative solutions in healthcare technology.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>Research & Development</h3>
+                            <p>Extensive research on Ayurvedic principles and modern AI technologies to create our unique solution.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>Prototype Development</h3>
+                            <p>Built a comprehensive prototype featuring AI-powered recommendations and patient management systems.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <div class="container">
+                <div class="contact-info">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2>Get In Touch</h2>
+                            <p>We're always excited to connect with healthcare professionals, technology enthusiasts, and anyone interested in the future of Ayurvedic medicine.</p>
+                            <div class="contact-details">
+                                <div class="contact-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>team@ayurvalife.com</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-university"></i>
+                                    <span>VJTI Mumbai</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-trophy"></i>
+                                    <span>Smart India Hackathon 2025</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- Login Page -->
+        <div id="login-page" class="page">
+            <section class="login-section">
+                <div class="container">
+                    <div class="login-container">
+                        <div class="login-form-container">
+                            <div class="card">
+                                <div class="card__body">
+                                    <h2>Dietitian Login</h2>
+                                    <p>Access your practice management dashboard</p>
+                                    
+                                    <form id="login-form" class="login-form">
+                                        <div class="form-group">
+                                            <label for="email" class="form-label">Email Address</label>
+                                            <input type="email" id="email" name="email" class="form-control" required>
+                                            <div class="error-message" id="email-error"></div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="password" class="form-label">Password</label>
+                                            <input type="password" id="password" name="password" class="form-control" required>
+                                            <div class="error-message" id="password-error"></div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" id="remember" name="remember">
+                                                <span class="checkmark"></span>
+                                                Remember me
+                                            </label>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn--primary btn--full-width">
+                                            <i class="fas fa-sign-in-alt"></i> Login
+                                        </button>
+                                        
+                                        <div class="login-links">
+                                            <a href="#" onclick="showForgotPassword()">Forgot Password?</a>
+                                            <a href="#" onclick="showRegister()">New User? Register Here</a>
+                                        </div>
+                                    </form>
+                                    
+                                    <div id="demo-credentials" class="demo-info">
+                                        <h4>Demo Credentials</h4>
+                                        <p>Email: demo@ayurvalife.com</p>
+                                        <p>Password: demo123</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="login-image">
+                            <img src="https://pplx-res.cloudinary.com/image/upload/v1755379068/pplx_project_search_images/2df7d3660e20a3c1ed244001d11f3e6f1fd3024b.png" alt="Ayurvedic consultation">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Patient Management Page -->
+        <div id="patients-page" class="page">
+            <section class="page-header">
+                <div class="container">
+                    <div class="page-header-content">
+                        <div>
+                            <h1>Patient Management</h1>
+                            <p>Manage your patient records and dietary plans</p>
+                        </div>
+                        <button class="btn btn--primary" onclick="showAddPatientModal()">
+                            <i class="fas fa-plus"></i> Add New Patient
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="patients-dashboard">
+                <div class="container">
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <div class="card">
+                                <div class="card__body">
+                                    <div class="stat-content">
+                                        <i class="fas fa-users stat-icon"></i>
+                                        <div>
+                                            <span class="stat-number" id="total-patients">0</span>
+                                            <span class="stat-label">Total Patients</span>
+                                        </div>
+                                    </div>
+                                </div>
+                    </div>
+
+                        
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="patients-section">
+                        <div class="patients-controls">
+                            <div class="search-bar">
+                                <input type="text" id="patient-search" placeholder="Search patients..." class="form-control">
+                                <i class="fas fa-search search-icon"></i>
+                            </div>
+                            <select id="dosha-filter" class="form-control">
+                                <option value="">All Doshas</option>
+                                <option value="Vata">Vata</option>
+                                <option value="Pitta">Pitta</option>
+                                <option value="Kapha">Kapha</option>
+                            </select>
+                        </div>
+
+                        <div class="patients-list" id="patients-list">
+                            <!-- Patients will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add Patient Modal -->
+            <div id="add-patient-modal" class="modal hidden">
+                <div class="modal-content large-modal">
+                    <div class="modal-header">
+                        <h3>Add New Patient</h3>
+                        <button class="close-modal" onclick="closeAddPatientModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="add-patient-form">
+                            <!-- Basic Information -->
+                            <div class="form-section">
+                                <h4>Basic Information</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="patient-name" class="form-label">Full Name</label>
+                                        <input type="text" id="patient-name" name="name" class="form-control" required>
+                                        <div class="error-message" id="name-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="patient-id" class="form-label">Patient ID</label>
+                                        <input type="text" id="patient-id" name="patientId" class="form-control" readonly>
+                                        <small class="form-text">Auto-generated unique identifier</small>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="patient-age" class="form-label">Age (years)</label>
+                                        <input type="number" id="patient-age" name="age" class="form-control" min="1" max="120" required>
+                                        <div class="error-message" id="age-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="patient-gender" class="form-label">Gender</label>
+                                        <select id="patient-gender" name="gender" class="form-control" required>
+                                            <option value="">Select Gender</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                        <div class="error-message" id="gender-error"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Physical Parameters -->
+                            <div class="form-section">
+                                <h4>Physical Parameters</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="patient-height" class="form-label">Height (cm)</label>
+                                        <input type="number" id="patient-height" name="height" class="form-control" min="30" max="300" step="0.1" required>
+                                        <div class="error-message" id="height-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="patient-weight" class="form-label">Weight (kg)</label>
+                                        <input type="number" id="patient-weight" name="weight" class="form-control" min="1" max="500" step="0.1" required>
+                                        <div class="error-message" id="weight-error"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contact Information -->
+                            <div class="form-section">
+                                <h4>Contact Information</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="patient-email" class="form-label">Email</label>
+                                        <input type="email" id="patient-email" name="contact" class="form-control" required>
+                                        <div class="error-message" id="contact-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="patient-phone" class="form-label">Phone Number</label>
+                                        <input type="tel" id="patient-phone" name="phone" class="form-control" required>
+                                        <div class="error-message" id="phone-error"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dietary Information -->
+                            <div class="form-section">
+                                <h4>Dietary Information</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="patient-dietary-habits" class="form-label">Dietary Habits</label>
+                                        <select id="patient-dietary-habits" name="dietaryHabits" class="form-control" required>
+                                            <option value="">Select Dietary Habits</option>
+                                            <option value="Vegetarian">Vegetarian</option>
+                                            <option value="Lacto-vegetarian">Lacto-vegetarian</option>
+                                            <option value="Vegan">Vegan</option>
+                                            <option value="Non-vegetarian">Non-vegetarian</option>
+                                            <option value="Pescatarian">Pescatarian</option>
+                                            <option value="Jain">Jain</option>
+                                        </select>
+                                        <div class="error-message" id="dietary-habits-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="patient-meal-frequency" class="form-label">Meal Frequency (per day)</label>
+                                        <select id="patient-meal-frequency" name="mealFrequency" class="form-control" required>
+                                            <option value="">Select Meal Frequency</option>
+                                            <option value="2">2 times</option>
+                                            <option value="3">3 times</option>
+                                            <option value="4">4 times</option>
+                                            <option value="5">5 times</option>
+                                            <option value="6+">6+ times</option>
+                                        </select>
+                                        <div class="error-message" id="meal-frequency-error"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="patient-water-intake" class="form-label">Water Intake (liters/day)</label>
+                                        <input type="number" id="patient-water-intake" name="waterIntake" class="form-control" min="0.5" max="10" step="0.1" required>
+                                        <div class="error-message" id="water-intake-error"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="patient-bowel-movements" class="form-label">Bowel Movements (per day)</label>
+                                        <select id="patient-bowel-movements" name="bowelMovements" class="form-control" required>
+                                            <option value="">Select Frequency</option>
+                                            <option value="Less than 1">Less than 1</option>
+                                            <option value="1">1 time</option>
+                                            <option value="2">2 times</option>
+                                            <option value="3">3 times</option>
+                                            <option value="More than 3">More than 3</option>
+                                        </select>
+                                        <div class="error-message" id="bowel-movements-error"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Health Information -->
+                            <div class="form-section">
+                                <h4>Health Information</h4>
+                                <div class="form-group">
+                                    <label for="patient-allergies" class="form-label">Any Allergies</label>
+                                    <textarea id="patient-allergies" name="allergies" class="form-control" rows="2" placeholder="List any known food allergies or intolerances (e.g., dairy, nuts, gluten)"></textarea>
+                                    <div class="error-message" id="allergies-error"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="patient-medical-history" class="form-label">Medical History</label>
+                                    <textarea id="patient-medical-history" name="medicalHistory" class="form-control" rows="3" placeholder="Brief medical history and current health conditions"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="patient-medications" class="form-label">Current Medications</label>
+                                    <textarea id="patient-medications" name="currentMedications" class="form-control" rows="2" placeholder="List current medications and supplements"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Ayurvedic Constitution -->
+                            <div class="form-section">
+                                <h4>Ayurvedic Constitution</h4>
+                                <div class="form-group">
+                                    <label for="patient-dosha" class="form-label">Primary Dosha</label>
+                                    <select id="patient-dosha" name="dosha" class="form-control" required>
+                                        <option value="">Select Primary Dosha</option>
+                                        <option value="Vata">Vata</option>
+                                        <option value="Pitta">Pitta</option>
+                                        <option value="Kapha">Kapha</option>
+                                        <option value="Vata-Pitta">Vata-Pitta</option>
+                                        <option value="Pitta-Kapha">Pitta-Kapha</option>
+                                        <option value="Vata-Kapha">Vata-Kapha</option>
+                                        <option value="Tridoshic">Tridoshic (Balanced)</option>
+                                    </select>
+                                    <div class="error-message" id="dosha-error"></div>
+                                </div>
+                            </div>
+
+                            <div class="modal-actions">
+                                <button type="button" class="btn btn--secondary" onclick="closeAddPatientModal()">Cancel</button>
+                                <button type="submit" class="btn btn--primary">Add Patient</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Patient Details Modal (injected dynamically) -->
+
+        <!-- Success/Error Messages -->
+    <div id="notification" class="notification hidden">
+        <div class="notification-content">
+            <i class="notification-icon"></i>
+            <span class="notification-message"></span>
+            <button class="close-notification" onclick="hideNotification()">&times;</button>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-spinner">
+            <i class="fas fa-leaf"></i>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
