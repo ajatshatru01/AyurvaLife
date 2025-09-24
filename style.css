@@ -1000,6 +1000,614 @@ a:hover {
   color: var(--ayurveda-text);
 }
 
+/* Food Analysis Page */
+.food-analysis-content {
+  padding: var(--space-48) 0;
+}
+
+.analysis-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-32);
+  margin-bottom: var(--space-48);
+}
+
+.upload-area {
+  border: 2px dashed var(--ayurveda-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-32);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-standard);
+  margin: var(--space-24) 0;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.upload-area:hover {
+  border-color: var(--ayurveda-secondary);
+  background-color: rgba(125, 132, 113, 0.05);
+}
+
+.upload-area.dragover {
+  border-color: var(--ayurveda-secondary);
+  background-color: rgba(214, 158, 46, 0.1);
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-icon {
+  font-size: var(--font-size-4xl);
+  color: var(--ayurveda-primary);
+  margin-bottom: var(--space-16);
+}
+
+.upload-info {
+  color: var(--ayurveda-text-secondary);
+  font-size: var(--font-size-sm);
+  margin-top: var(--space-8);
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: var(--radius-base);
+  object-fit: contain;
+}
+
+.upload-actions {
+  display: flex;
+  gap: var(--space-16);
+  justify-content: center;
+  margin-top: var(--space-24);
+}
+
+.results-section {
+  min-height: 400px;
+}
+
+.analysis-loading {
+  text-align: center;
+  padding: var(--space-48) var(--space-16);
+}
+
+.analysis-loading i {
+  font-size: var(--font-size-3xl);
+  color: var(--ayurveda-primary);
+  margin-bottom: var(--space-16);
+}
+
+.analysis-placeholder {
+  text-align: center;
+  padding: var(--space-48) var(--space-16);
+  color: var(--ayurveda-text-secondary);
+}
+
+.placeholder-icon {
+  font-size: var(--font-size-4xl);
+  color: var(--ayurveda-primary);
+  margin-bottom: var(--space-16);
+}
+
+.analysis-results {
+  padding: var(--space-16);
+}
+
+.dish-info {
+  margin-bottom: var(--space-32);
+  padding: var(--space-20);
+  background: rgba(125, 132, 113, 0.1);
+  border-radius: var(--radius-base);
+}
+
+.dish-name {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--ayurveda-text);
+  margin-bottom: var(--space-12);
+}
+
+.ingredients-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  margin-top: var(--space-12);
+}
+
+.ingredient-tag {
+  background: var(--ayurveda-secondary);
+  color: white;
+  padding: var(--space-4) var(--space-12);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.ingredient-analysis {
+  margin-top: var(--space-24);
+}
+
+.ingredient-item {
+  border: 1px solid rgba(125, 132, 113, 0.2);
+  border-radius: var(--radius-base);
+  padding: var(--space-16);
+  margin-bottom: var(--space-16);
+  background: var(--ayurveda-surface);
+}
+
+.ingredient-header {
+  font-weight: var(--font-weight-bold);
+  color: var(--ayurveda-text);
+  margin-bottom: var(--space-12);
+  font-size: var(--font-size-lg);
+}
+
+.properties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-16);
+  margin-top: var(--space-16);
+}
+
+.property-group {
+  background: rgba(125, 132, 113, 0.05);
+  padding: var(--space-12);
+  border-radius: var(--radius-sm);
+}
+
+.property-label {
+  font-weight: var(--font-weight-medium);
+  color: var(--ayurveda-text);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-4);
+}
+
+.property-value {
+  color: var(--ayurveda-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.dosha-effects {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-12);
+  margin-top: var(--space-12);
+}
+
+.dosha-effect {
+  text-align: center;
+  padding: var(--space-8);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+}
+
+.dosha-effect.vata {
+  background: rgba(142, 68, 173, 0.1);
+  color: var(--vata-color);
+}
+
+.dosha-effect.pitta {
+  background: rgba(230, 126, 34, 0.1);
+  color: var(--pitta-color);
+}
+
+.dosha-effect.kapha {
+  background: rgba(39, 174, 96, 0.1);
+  color: var(--kapha-color);
+}
+
+.recommendation {
+  margin-top: var(--space-16);
+  padding: var(--space-16);
+  background: rgba(214, 158, 46, 0.1);
+  border-radius: var(--radius-base);
+  border-left: 4px solid var(--ayurveda-secondary);
+}
+
+.recommendation h5 {
+  margin-bottom: var(--space-8);
+  color: var(--ayurveda-text);
+}
+
+/* How It Works Section */
+.how-it-works {
+  margin: var(--space-64) 0;
+  text-align: center;
+}
+
+.how-it-works h2 {
+  margin-bottom: var(--space-32);
+  color: var(--ayurveda-text);
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-32);
+  margin-top: var(--space-32);
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.step-number {
+  width: 60px;
+  height: 60px;
+  background: var(--ayurveda-secondary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-16);
+}
+
+.step-content h4 {
+  margin-bottom: var(--space-8);
+  color: var(--ayurveda-text);
+}
+
+.step-content p {
+  color: var(--ayurveda-text-secondary);
+  line-height: 1.6;
+}
+
+/* Ayurveda Info Section */
+.ayurveda-info {
+  margin-top: var(--space-48);
+}
+
+.ayurveda-info h3 {
+  margin-bottom: var(--space-16);
+  color: var(--ayurveda-text);
+}
+
+.property-item {
+  margin-bottom: var(--space-24);
+}
+
+.property-item h4 {
+  margin-bottom: var(--space-12);
+  color: var(--ayurveda-text);
+}
+
+.property-item ul {
+  margin: 0;
+  padding-left: var(--space-20);
+}
+
+.property-item li {
+  margin-bottom: var(--space-8);
+  color: var(--ayurveda-text);
+  line-height: 1.5;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .analysis-container {
+    grid-template-columns: 1fr;
+    gap: var(--space-24);
+  }
+  
+  .upload-area {
+    padding: var(--space-24);
+    min-height: 250px;
+  }
+  
+  .upload-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-24);
+  }
+  
+  .properties-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+  }
+  
+  .dosha-effects {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+}
+
+/* Additional Quiz Styles */
+.quiz-option {
+  padding: var(--space-12) var(--space-16);
+  border: 1px solid var(--ayurveda-primary);
+  border-radius: var(--radius-base);
+  margin-bottom: var(--space-8);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+  background: var(--ayurveda-surface);
+  color: var(--ayurveda-text);
+}
+
+.quiz-option:hover {
+  background: rgba(125, 132, 113, 0.1);
+  border-color: var(--ayurveda-secondary);
+}
+
+.quiz-option.selected {
+  background: var(--ayurveda-secondary);
+  color: white;
+  border-color: var(--ayurveda-secondary);
+}
+
+.score-breakdown {
+  margin-top: var(--space-16);
+}
+
+.score-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  margin-bottom: var(--space-12);
+}
+
+.dosha-name {
+  min-width: 60px;
+  font-weight: var(--font-weight-medium);
+  color: var(--ayurveda-text);
+}
+
+.score-bar {
+  flex: 1;
+  height: 20px;
+  background: rgba(125, 132, 113, 0.1);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.score-fill {
+  height: 100%;
+  transition: width var(--duration-normal) var(--ease-standard);
+}
+
+.score-value {
+  min-width: 30px;
+  text-align: right;
+  font-weight: var(--font-weight-bold);
+  color: var(--ayurveda-text);
+}
+
+.analysis-error {
+  text-align: center;
+  padding: var(--space-32);
+  color: var(--ayurveda-error);
+}
+
+.analysis-error i {
+  font-size: var(--font-size-3xl);
+  margin-bottom: var(--space-16);
+}
+
+.analysis-error .help-text {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: var(--radius-base);
+  padding: var(--space-16);
+  margin-top: var(--space-16);
+  text-align: left;
+}
+
+.analysis-error .help-text h5 {
+  color: var(--ayurveda-text);
+  margin-bottom: var(--space-8);
+}
+
+.analysis-error .help-text ol {
+  margin: var(--space-8) 0;
+  padding-left: var(--space-20);
+}
+
+.analysis-error .help-text li {
+  color: var(--ayurveda-text);
+  margin-bottom: var(--space-4);
+}
+
+.analysis-error .help-text a {
+  color: var(--ayurveda-link);
+  text-decoration: underline;
+}
+
+.analysis-error details {
+  margin-top: var(--space-16);
+  text-align: left;
+}
+
+.analysis-error summary {
+  cursor: pointer;
+  color: var(--ayurveda-text-secondary);
+  margin-bottom: var(--space-8);
+}
+
+/* Dish Analysis Section */
+.dish-analysis {
+  margin-top: var(--space-32);
+  padding: var(--space-20);
+  background: rgba(214, 158, 46, 0.05);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(214, 158, 46, 0.2);
+}
+
+.dish-analysis h3 {
+  color: var(--ayurveda-text);
+  margin-bottom: var(--space-20);
+  border-bottom: 2px solid var(--ayurveda-secondary);
+  padding-bottom: var(--space-8);
+}
+
+.dosha-score-section {
+  margin-bottom: var(--space-24);
+}
+
+.dosha-score-section h4 {
+  color: var(--ayurveda-text);
+  margin-bottom: var(--space-12);
+}
+
+.dosha-scores {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-16);
+}
+
+.dosha-score-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-16);
+  border-radius: var(--radius-base);
+  background: var(--ayurveda-surface);
+  border: 2px solid;
+  text-align: center;
+}
+
+.dosha-score-item.vata {
+  border-color: var(--vata-color);
+  background: rgba(142, 68, 173, 0.05);
+}
+
+.dosha-score-item.pitta {
+  border-color: var(--pitta-color);
+  background: rgba(230, 126, 34, 0.05);
+}
+
+.dosha-score-item.kapha {
+  border-color: var(--kapha-color);
+  background: rgba(39, 174, 96, 0.05);
+}
+
+.dosha-label {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-8);
+}
+
+.dosha-score-item.vata .dosha-label {
+  color: var(--vata-color);
+}
+
+.dosha-score-item.pitta .dosha-label {
+  color: var(--pitta-color);
+}
+
+.dosha-score-item.kapha .dosha-label {
+  color: var(--kapha-color);
+}
+
+.score-value {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--ayurveda-text-secondary);
+}
+
+.properties-section,
+.benefits-section,
+.suitability-section,
+.precautions-section {
+  margin-bottom: var(--space-20);
+}
+
+.properties-section h4,
+.benefits-section h4,
+.suitability-section h4,
+.precautions-section h4 {
+  color: var(--ayurveda-text);
+  margin-bottom: var(--space-8);
+  font-size: var(--font-size-lg);
+}
+
+.properties-text,
+.benefits-text,
+.suitability-text,
+.precautions-text {
+  color: var(--ayurveda-text);
+  line-height: 1.6;
+  background: var(--ayurveda-surface);
+  padding: var(--space-12);
+  border-radius: var(--radius-sm);
+  border-left: 4px solid var(--ayurveda-secondary);
+}
+
+.precautions-text {
+  background: rgba(227, 57, 46, 0.05);
+  border-left-color: #e3392e;
+}
+
+.dish-attributes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-12);
+  margin-bottom: var(--space-20);
+}
+
+.attribute-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-12);
+  background: var(--ayurveda-surface);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(125, 132, 113, 0.2);
+}
+
+.attribute-label {
+  font-weight: var(--font-weight-medium);
+  color: var(--ayurveda-text);
+}
+
+.attribute-value {
+  font-weight: var(--font-weight-bold);
+  color: var(--ayurveda-secondary);
+}
+
+/* Mobile responsiveness for dish analysis */
+@media (max-width: 768px) {
+  .dosha-scores {
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+  }
+  
+  .dish-attributes {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+  
+  .attribute-item {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-4);
+  }
+}
+
+.no-analysis {
+  text-align: center;
+  padding: var(--space-24);
+  color: var(--ayurveda-text-secondary);
+  font-style: italic;
+}
+
 .card__body p, .card__body li, .card__body span, .card__body div {
   color: var(--ayurveda-text);
 }

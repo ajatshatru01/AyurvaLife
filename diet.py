@@ -4,6 +4,10 @@ import requests
 import os
 import json
 from pathlib import Path
+import google.generativeai as genai
+import base64
+from io import BytesIO
+from PIL import Image
 
 def _load_env_file_if_present():
     """
@@ -36,6 +40,18 @@ def _load_env_file_if_present():
 
 # Load env from file(s) before accessing os.getenv
 _load_env_file_if_present()
+
+# Configure Gemini API
+api_key = os.getenv("GOOGLE_API_KEY")
+if api_key:
+    genai.configure(api_key=api_key)
+    vision_model = genai.GenerativeModel("gemini-1.5-flash")
+    text_model = genai.GenerativeModel("gemini-1.5-flash")
+    print(f"Gemini API configured successfully")
+else:
+    vision_model = None
+    text_model = None
+    print("WARNING: GOOGLE_API_KEY not found. Image analysis will not work.")
 
 app = Flask(__name__)
 CORS(app)
@@ -108,6 +124,170 @@ def extract_json_from_text(text: str):
         except Exception:
             return None
     return None
+
+
+def identify_dish_and_ingredients(image_data):
+    """
+    Identify dish and ingredients from base64 image data using Gemini Vision
+    """
+    if not vision_model:
+        return {"error": "Google API key not configured for image analysis"}
+    
+    prompt = """You are an expert chef and food analyst. Look at this food image and:
+    1. Identify the main dish or food item
+    2. List the top 4-6 visible ingredients with their approximate percentages
+    
+    Return ONLY valid JSON in this exact format:
+    {
+      "dish": "Name of the dish",
+      "ingredients": ["ingredient1 (30%)", "ingredient2 (25%)", "ingredient3 (20%)", "ingredient4 (15%)"]
+    }
+    
+    Important: 
+    - Be specific with dish names (e.g., "Chicken Biryani" not just "Rice dish")
+    - Include percentage estimates that add up to roughly 90-100%
+    - Focus on main visible ingredients
+    - Return ONLY the JSON, no other text"""
+
+    try:
+        # Decode base64 image
+        image_bytes = base64.b64decode(image_data)
+        print(f"Image decoded successfully, size: {len(image_bytes)} bytes")
+        
+        response = vision_model.generate_content(
+            [prompt, {"mime_type": "image/jpeg", "data": image_bytes}]
+        )
+        
+        print(f"Gemini response received: {response.text[:200]}...")
+        
+        cleaned_text = response.text.strip().replace('```json', '').replace('```', '').strip()
+        
+        # Try to extract JSON more robustly
+        result = extract_json_from_text(cleaned_text)
+        if result and "dish" in result:
+            print(f"Successfully parsed dish: {result['dish']}")
+            return result
+        else:
+            print(f"Failed to parse JSON or missing dish field: {cleaned_text}")
+            return {"dish": "Unknown", "ingredients": [], "debug_response": cleaned_text}
+            
+    except Exception as e:
+        print(f"ERROR: Failed to analyze image: {e}")
+        return {"error": f"Failed to analyze image: {str(e)}", "debug_info": str(e)}
+
+
+def analyze_ingredients_ayurvedically(ingredients):
+    """
+    Analyze ingredients using Ayurvedic principles via Gemini
+    """
+    if not text_model:
+        return {"error": "Google API key not configured for text analysis"}
+        
+    prompt = f"""As an Ayurvedic nutrition expert, analyze this dish and its ingredients. Provide both ingredient-level and dish-level analysis.
+
+Return ONLY valid JSON in this exact format:
+{{
+  "ingredient_analysis": [
+    {{
+      "ingredient": "ingredient name",
+      "rasa": ["taste1", "taste2"],
+      "virya": "heating/cooling",
+      "vipaka": "post-digestive effect",
+      "dosha_effect": {{"vata":"effect", "pitta":"effect", "kapha":"effect"}},
+      "recommendation": "specific advice"
+    }}
+  ],
+  "dish_analysis": {{
+    "dosha_score": {{"vata": "effect level", "pitta": "effect level", "kapha": "effect level"}},
+    "ayurvedic_properties": "Overall properties and effects of the dish",
+    "suitability": "Who should eat this dish and any precautions",
+    "overall_rasa": "dominant tastes",
+    "overall_virya": "heating/cooling",
+    "health_benefits": "Main health benefits",
+    "precautions": "Any warnings or contraindications"
+  }}
+}}
+
+Ingredients to analyze: {ingredients}
+
+Important:
+- Provide practical, actionable advice
+- Be specific about dosha effects
+- Include both benefits and precautions
+- Return ONLY the JSON, no other text"""
+
+    try:
+        response = text_model.generate_content(prompt)
+        cleaned_text = response.text.strip().replace('```json', '').replace('```', '').strip()
+        
+        result = extract_json_from_text(cleaned_text)
+        if result and "ingredient_analysis" in result:
+            print(f"Successfully parsed Ayurvedic analysis")
+            return result
+        else:
+            print(f"Failed to parse Ayurvedic analysis: {cleaned_text}")
+            return {"ingredient_analysis": [], "debug_response": cleaned_text}
+            
+    except Exception as e:
+        print(f"ERROR: Failed to analyze ingredients: {e}")
+        return {"error": f"Failed to analyze ingredients: {str(e)}", "debug_info": str(e)}
+
+
+def analyze_dish_from_image(image_data):
+    """
+    Complete dish analysis from image data
+    """
+    dish_info = identify_dish_and_ingredients(image_data)
+    
+    if "error" in dish_info:
+        return dish_info
+        
+    dish = dish_info.get("dish", "Unknown Dish")
+    ingredients = dish_info.get("ingredients", [])
+
+    ayurvedic_data = analyze_ingredients_ayurvedically(ingredients)
+
+    return {
+        "dish": dish,
+        "ingredients": ingredients,
+        "ayurveda_analysis": ayurvedic_data
+    }
+
+
+@app.route("/api/analyze-image", methods=["POST"])
+def analyze_image():
+    """
+    Analyze food image and return Ayurvedic analysis
+    """
+    try:
+        data = request.get_json(force=True, silent=False) or {}
+    except Exception:
+        return jsonify({"error": "Invalid JSON"}), 400
+
+    image_data = data.get("image")
+    if not image_data:
+        return jsonify({"error": "No image data provided"}), 400
+
+    # Remove data URL prefix if present
+    if image_data.startswith("data:image"):
+        image_data = image_data.split(",", 1)[1]
+
+    print(f"Received image data, length: {len(image_data)}")
+    
+    # Check if API key is configured
+    if not vision_model:
+        return jsonify({
+            "error": "Google API key not configured", 
+            "instructions": "Please set GOOGLE_API_KEY in your .env file"
+        }), 500
+
+    try:
+        result = analyze_dish_from_image(image_data)
+        print(f"Analysis result: {result}")
+        return jsonify(result)
+    except Exception as e:
+        print(f"Analysis failed with error: {e}")
+        return jsonify({"error": f"Analysis failed: {str(e)}", "debug": str(e)}), 500
 
 
 @app.route("/api/health", methods=["GET"])

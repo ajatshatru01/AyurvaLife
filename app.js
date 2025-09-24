@@ -1306,6 +1306,11 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Navigation link clicked:', pageId);
             navigateToPage(pageId);
 
+            // Initialize food analysis when navigating to that page
+            if (pageId === 'food-analysis') {
+                setTimeout(initializeFoodAnalysis, 100);
+            }
+
             // Close mobile menu if open
             const navMenu = document.getElementById('nav-menu');
             const hamburger = document.getElementById('nav-hamburger');
@@ -1367,6 +1372,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const hash = window.location.hash.substring(1);
     if (hash && document.getElementById(hash + '-page')) {
         navigateToPage(hash);
+        if (hash === 'food-analysis') {
+            setTimeout(initializeFoodAnalysis, 100);
+        }
     } else {
         navigateToPage('home');
     }
@@ -1392,3 +1400,415 @@ window.hideNotification = hideNotification;
 window.generateDietPlanForPatient = generateDietPlanForPatient;
 window.showDietPlanModal = showDietPlanModal;
 window.closeDietPlanModal = closeDietPlanModal;
+
+// Food Analysis Functions
+let selectedImageFile = null;
+let currentImageData = null;
+
+function initializeFoodAnalysis() {
+    const uploadArea = document.getElementById('upload-area');
+    const imageInput = document.getElementById('image-input');
+    const previewImage = document.getElementById('preview-image');
+    const uploadPlaceholder = document.getElementById('upload-placeholder');
+    const analyzeButton = document.getElementById('analyze-button');
+    const clearButton = document.getElementById('clear-button');
+
+    if (!uploadArea || !imageInput) return;
+
+    // Click to upload
+    uploadArea.addEventListener('click', () => {
+        imageInput.click();
+    });
+
+    // Drag and drop functionality
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            handleImageFile(files[0]);
+        }
+    });
+
+    // File input change
+    imageInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            handleImageFile(e.target.files[0]);
+        }
+    });
+
+    // Analyze button
+    if (analyzeButton) {
+        analyzeButton.addEventListener('click', analyzeFood);
+    }
+
+    // Clear button
+    if (clearButton) {
+        clearButton.addEventListener('click', clearImage);
+    }
+}
+
+function handleImageFile(file) {
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+        showNotification('Please select a valid image file', 'error');
+        return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+        showNotification('Image size must be less than 5MB', 'error');
+        return;
+    }
+
+    selectedImageFile = file;
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        const previewImage = document.getElementById('preview-image');
+        const uploadPlaceholder = document.getElementById('upload-placeholder');
+        const analyzeButton = document.getElementById('analyze-button');
+
+        if (previewImage && uploadPlaceholder) {
+            previewImage.src = e.target.result;
+            previewImage.classList.remove('hidden');
+            uploadPlaceholder.classList.add('hidden');
+            
+            // Store base64 data for analysis (remove data URL prefix)
+            currentImageData = e.target.result.split(',')[1];
+        }
+
+        if (analyzeButton) {
+            analyzeButton.disabled = false;
+        }
+    };
+
+    reader.readAsDataURL(file);
+}
+
+function clearImage() {
+    const previewImage = document.getElementById('preview-image');
+    const uploadPlaceholder = document.getElementById('upload-placeholder');
+    const imageInput = document.getElementById('image-input');
+    const analyzeButton = document.getElementById('analyze-button');
+    const resultsSection = document.getElementById('analysis-results');
+    const placeholder = document.getElementById('analysis-placeholder');
+
+    if (previewImage) {
+        previewImage.src = '';
+        previewImage.classList.add('hidden');
+    }
+
+    if (uploadPlaceholder) {
+        uploadPlaceholder.classList.remove('hidden');
+    }
+
+    if (imageInput) {
+        imageInput.value = '';
+    }
+
+    if (analyzeButton) {
+        analyzeButton.disabled = true;
+    }
+
+    if (resultsSection) {
+        resultsSection.classList.add('hidden');
+    }
+
+    if (placeholder) {
+        placeholder.classList.remove('hidden');
+    }
+
+    selectedImageFile = null;
+    currentImageData = null;
+}
+
+async function analyzeFood() {
+    if (!currentImageData) {
+        showNotification('Please select an image first', 'error');
+        return;
+    }
+
+    const loadingDiv = document.getElementById('analysis-loading');
+    const resultsDiv = document.getElementById('analysis-results');
+    const placeholderDiv = document.getElementById('analysis-placeholder');
+    const analyzeButton = document.getElementById('analyze-button');
+
+    // Show loading state
+    if (loadingDiv) loadingDiv.classList.remove('hidden');
+    if (resultsDiv) resultsDiv.classList.add('hidden');
+    if (placeholderDiv) placeholderDiv.classList.add('hidden');
+    if (analyzeButton) analyzeButton.disabled = true;
+
+    try {
+        const response = await fetch(`${API_BASE}/api/analyze-image`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                image: currentImageData
+            })
+        });
+
+        const data = await response.json();
+        console.log('Received analysis data:', data);
+
+        if (!response.ok) {
+            throw new Error(data.error || 'Analysis failed');
+        }
+
+        displayAnalysisResults(data);
+        showNotification('Food analysis completed successfully!');
+    } catch (error) {
+        console.error('Analysis error:', error);
+        showNotification(`Analysis failed: ${error.message}`, 'error');
+        
+        // Show placeholder again on error
+        if (placeholderDiv) placeholderDiv.classList.remove('hidden');
+    } finally {
+        // Hide loading state
+        if (loadingDiv) loadingDiv.classList.add('hidden');
+        if (analyzeButton) analyzeButton.disabled = false;
+    }
+}
+
+function displayAnalysisResults(data) {
+    console.log('displayAnalysisResults called with:', data);
+    const resultsDiv = document.getElementById('analysis-results');
+    const placeholderDiv = document.getElementById('analysis-placeholder');
+
+    if (!resultsDiv) return;
+
+    if (placeholderDiv) placeholderDiv.classList.add('hidden');
+    resultsDiv.classList.remove('hidden');
+
+    // Handle error in analysis
+    if (data.error) {
+        let errorMessage = data.error;
+        let helpText = '';
+        
+        if (data.error.includes('Google API key')) {
+            helpText = `
+                <div class="help-text">
+                    <h5>Setup Instructions:</h5>
+                    <ol>
+                        <li>Get your Google API key from <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a></li>
+                        <li>Open the .env file in the AyurvaLife folder</li>
+                        <li>Replace 'your_google_api_key_here' with your actual API key</li>
+                        <li>Restart the backend server (python diet.py)</li>
+                    </ol>
+                </div>
+            `;
+        }
+        
+        resultsDiv.innerHTML = `
+            <div class="analysis-error">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h4>Analysis Error</h4>
+                <p>${errorMessage}</p>
+                ${helpText}
+                ${data.debug ? `<details><summary>Debug Info</summary><pre>${data.debug}</pre></details>` : ''}
+            </div>
+        `;
+        return;
+    }
+
+    // Check if we got debug response
+    if (data.dish === 'Unknown' && data.debug_response) {
+        resultsDiv.innerHTML = `
+            <div class="analysis-error">
+                <i class="fas fa-info-circle"></i>
+                <h4>Analysis Issue</h4>
+                <p>The AI had trouble analyzing this image. This might happen if:</p>
+                <ul>
+                    <li>The image is not clear enough</li>
+                    <li>The food is not easily recognizable</li>
+                    <li>The image contains non-food items</li>
+                </ul>
+                <p><strong>Tip:</strong> Try uploading a clearer image of a well-known dish.</p>
+                <details>
+                    <summary>Raw AI Response</summary>
+                    <pre>${data.debug_response}</pre>
+                </details>
+            </div>
+        `;
+        return;
+    }
+
+    const dish = data.dish || 'Unknown Dish';
+    const ingredients = data.ingredients || [];
+    const ayurvedaAnalysis = data.ayurveda_analysis || {};
+    const ingredientAnalysis = ayurvedaAnalysis.ingredient_analysis || [];
+    const dishAnalysis = ayurvedaAnalysis.dish_analysis || {};
+
+    console.log('Parsed data:', { dish, ingredients, ayurvedaAnalysis, ingredientAnalysis, dishAnalysis });
+
+    let resultsHTML = `
+        <div class="dish-info">
+            <div class="dish-name">${dish}</div>
+            <div class="ingredients-section">
+                <h4>Main Ingredients:</h4>
+                <div class="ingredients-list">
+                    ${ingredients.map(ingredient => `
+                        <span class="ingredient-tag">${ingredient}</span>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Add dish-level analysis if available
+    if (dishAnalysis && Object.keys(dishAnalysis).length > 0) {
+        resultsHTML += `
+            <div class="dish-analysis">
+                <h3>Overall Dish Analysis</h3>
+                
+                ${dishAnalysis.dosha_score ? `
+                    <div class="dosha-score-section">
+                        <h4>Dosha Effects</h4>
+                        <div class="dosha-scores">
+                            <div class="dosha-score-item vata">
+                                <span class="dosha-label">Vata</span>
+                                <span class="score-value">${dishAnalysis.dosha_score.vata}</span>
+                            </div>
+                            <div class="dosha-score-item pitta">
+                                <span class="dosha-label">Pitta</span>
+                                <span class="score-value">${dishAnalysis.dosha_score.pitta}</span>
+                            </div>
+                            <div class="dosha-score-item kapha">
+                                <span class="dosha-label">Kapha</span>
+                                <span class="score-value">${dishAnalysis.dosha_score.kapha}</span>
+                            </div>
+                        </div>
+                    </div>
+                ` : ''}
+                
+                ${dishAnalysis.ayurvedic_properties ? `
+                    <div class="properties-section">
+                        <h4>Ayurvedic Properties</h4>
+                        <p class="properties-text">${dishAnalysis.ayurvedic_properties}</p>
+                    </div>
+                ` : ''}
+                
+                <div class="dish-attributes">
+                    ${dishAnalysis.overall_rasa ? `
+                        <div class="attribute-item">
+                            <span class="attribute-label">Dominant Rasa:</span>
+                            <span class="attribute-value">${dishAnalysis.overall_rasa}</span>
+                        </div>
+                    ` : ''}
+                    
+                    ${dishAnalysis.overall_virya ? `
+                        <div class="attribute-item">
+                            <span class="attribute-label">Overall Virya:</span>
+                            <span class="attribute-value">${dishAnalysis.overall_virya}</span>
+                        </div>
+                    ` : ''}
+                </div>
+                
+                ${dishAnalysis.health_benefits ? `
+                    <div class="benefits-section">
+                        <h4>Health Benefits</h4>
+                        <p class="benefits-text">${dishAnalysis.health_benefits}</p>
+                    </div>
+                ` : ''}
+                
+                ${dishAnalysis.suitability ? `
+                    <div class="suitability-section">
+                        <h4>Suitability & Recommendations</h4>
+                        <p class="suitability-text">${dishAnalysis.suitability}</p>
+                    </div>
+                ` : ''}
+                
+                ${dishAnalysis.precautions ? `
+                    <div class="precautions-section">
+                        <h4>Precautions</h4>
+                        <p class="precautions-text">${dishAnalysis.precautions}</p>
+                    </div>
+                ` : ''}
+            </div>
+        `;
+    }
+
+    if (ingredientAnalysis.length > 0) {
+        resultsHTML += `
+            <div class="ingredient-analysis">
+                <h3>Ayurvedic Analysis</h3>
+                ${ingredientAnalysis.map(item => `
+                    <div class="ingredient-item">
+                        <div class="ingredient-header">${item.ingredient}</div>
+                        
+                        <div class="properties-grid">
+                            <div class="property-group">
+                                <div class="property-label">Rasa (Taste)</div>
+                                <div class="property-value">${Array.isArray(item.rasa) ? item.rasa.join(', ') : (item.rasa || 'Not available')}</div>
+                            </div>
+                            
+                            <div class="property-group">
+                                <div class="property-label">Virya (Energy)</div>
+                                <div class="property-value">${item.virya || 'Not available'}</div>
+                            </div>
+                            
+                            <div class="property-group">
+                                <div class="property-label">Vipaka (Post-digestive effect)</div>
+                                <div class="property-value">${item.vipaka || 'Not available'}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="dosha-effects">
+                            <div class="dosha-effect vata">
+                                <strong>Vata</strong><br>
+                                ${item.dosha_effect?.vata || 'Not available'}
+                            </div>
+                            <div class="dosha-effect pitta">
+                                <strong>Pitta</strong><br>
+                                ${item.dosha_effect?.pitta || 'Not available'}
+                            </div>
+                            <div class="dosha-effect kapha">
+                                <strong>Kapha</strong><br>
+                                ${item.dosha_effect?.kapha || 'Not available'}
+                            </div>
+                        </div>
+                        
+                        ${item.recommendation ? `
+                            <div class="recommendation">
+                                <h5>Recommendation</h5>
+                                <p>${item.recommendation}</p>
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    } else {
+        resultsHTML += `
+            <div class="no-analysis">
+                <p>Detailed Ayurvedic analysis not available for this dish.</p>
+                <p>The dish was identified as: <strong>${dish}</strong></p>
+                ${ingredients.length > 0 ? `<p>Ingredients: ${ingredients.join(', ')}</p>` : ''}
+            </div>
+        `;
+    }
+
+    console.log('Setting innerHTML for resultsDiv');
+    resultsDiv.innerHTML = resultsHTML;
+    console.log('Successfully set results HTML');
+}
+
+// Update the DOMContentLoaded event listener to include food analysis initialization
+
+// Add food analysis functions to global scope
+window.initializeFoodAnalysis = initializeFoodAnalysis;
+window.analyzeFood = analyzeFood;
+window.clearImage = clearImage;
