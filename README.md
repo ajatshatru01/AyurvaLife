@@ -242,7 +242,3 @@ Open:
 - Store only necessary health data; add consent + data retention policies for production.
 - Use Supabase Row Level Security (RLS) for patient data isolation.
 
----
-
-## License
-For hackathon/demo use. Add a license if you plan to open-source.
