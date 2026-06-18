@@ -1,0 +1,80 @@
+// Global application state 
+export const AppState = {
+    currentPage: 'home',
+    isLoggedIn: false,
+    currentUser: null,
+    nextPatientId: 3, // Auto-incrementing patient ID starting from 3
+    patients: [
+        {
+            id: 1,
+            patientId: 'AYU001',
+            name: "Rajesh Kumar",
+            age: 45,
+            gender: "Male",
+            height: 175,
+            weight: 80,
+            dosha: "Pitta",
+            doshaScores: { vata: 2, pitta: 7, kapha: 1 },
+            contact: "rajesh@email.com",
+            phone: "+91 9876543210",
+            medicalHistory: "Hypertension, Diabetes Type 2",
+            dietaryHabits: "Vegetarian",
+            currentMedications: "Metformin, Lisinopril",
+            allergies: "None known",
+            mealFrequency: "3",
+            waterIntake: 2.5,
+            bowelMovements: "1"
+        },
+        {
+            id: 2,
+            patientId: 'AYU002',
+            name: "Priya Sharma",
+            age: 32,
+            gender: "Female",
+            height: 160,
+            weight: 55,
+            dosha: "Vata",
+            doshaScores: { vata: 8, pitta: 1, kapha: 1 },
+            contact: "priya@email.com",
+            phone: "+91 9876543211",
+            medicalHistory: "Anxiety, IBS",
+            dietaryHabits: "Lacto-vegetarian",
+            currentMedications: "None",
+            allergies: "Dairy sensitivity",
+            mealFrequency: "4",
+            waterIntake: 2.0,
+            bowelMovements: "2"
+        }
+    ],
+    doshaQuiz: {
+        currentQuestion: 0,
+        answers: [],
+        questions: [
+            { feature: "Body Frame", question: "What describes your Body Frame?", options: [{ text: "Well Built", value: "Well Built" }, { text: "Thin and Lean", value: "Thin and Lean" }, { text: "Medium", value: "Medium" }] },
+            { feature: "Type of Hair", question: "What describes your Type of Hair?", options: [{ text: "Dry", value: "Dry" }, { text: "Normal", value: "Normal" }, { text: "Greasy", value: "Greasy" }] },
+            { feature: "Color of Hair", question: "What describes your Color of Hair?", options: [{ text: "Grey", value: "Grey" }, { text: "Brown", value: "Brown" }, { text: "Black", value: "Black" }] },
+            { feature: "Skin", question: "What describes your Skin?", options: [{ text: "Soft,Sweating", value: "Soft,Sweating" }, { text: "Moist,Greasy", value: "Moist,Greasy" }, { text: "Dry,Rough", value: "Dry,Rough" }] },
+            { feature: "Complexion", question: "What describes your Complexion?", options: [{ text: "Pinkish", value: "Pinkish" }, { text: "Dark", value: "Dark" }, { text: "Glowing", value: "Glowing" }] },
+            { feature: "Body Weight", question: "What describes your Body Weight?", options: [{ text: "Underweight", value: "Underweight" }, { text: "Overweight", value: "Overweight" }, { text: "Normal", value: "Normal" }] },
+            { feature: "Nails", question: "What describes your Nails?", options: [{ text: "Redish", value: "Redish" }, { text: "Blackish", value: "Blackish" }, { text: "Pinkish", value: "Pinkish" }] },
+            { feature: "Size and Color of the Teeth", question: "What describes your Size and Color of the Teeth?", options: [{ text: "Large,White", value: "Large,White" }, { text: "Medium,Yellowish", value: "Medium,Yellowish" }, { text: "Irregular,Blackish", value: "Irregular,Blackish" }] },
+            { feature: "Pace of Performing Work", question: "What describes your Pace of Performing Work?", options: [{ text: "Fast", value: "Fast" }, { text: "Medium", value: "Medium" }, { text: "Slow", value: "Slow" }] },
+            { feature: "Mental Activity", question: "What describes your Mental Activity?", options: [{ text: "Aggressive", value: "Aggressive" }, { text: "Restless", value: "Restless" }, { text: "Stable", value: "Stable" }] },
+            { feature: "Memory", question: "What describes your Memory?", options: [{ text: "Good Memory", value: "Good Memory" }, { text: "Long Term", value: "Long Term" }, { text: "Short term", value: "Short term" }] },
+            { feature: "Sleep Pattern", question: "What describes your Sleep Pattern?", options: [{ text: "Sleepy", value: "Sleepy" }, { text: "Moderate", value: "Moderate" }, { text: "Less", value: "Less" }] },
+            { feature: "Weather Conditions", question: "What describes your Weather Conditions?", options: [{ text: "Dislike Heat", value: "Dislike Heat" }, { text: "Dislike Moist", value: "Dislike Moist" }, { text: "Dislike Cold", value: "Dislike Cold" }] },
+            { feature: "Reaction under Adverse Situations", question: "What describes your Reaction under Adverse Situations?", options: [{ text: "Anger", value: "Anger" }, { text: "Calm", value: "Calm" }, { text: "Anxiety", value: "Anxiety" }] },
+            { feature: "Mood", question: "What describes your Mood?", options: [{ text: "Changes Quickly", value: "Changes Quickly" }, { text: "Constant", value: "Constant" }, { text: "Changes Slowly", value: "Changes Slowly" }] },
+            { feature: "Eating Habit", question: "What describes your Eating Habit?", options: [{ text: "Irregular Chewing", value: "Irregular Chewing" }, { text: "Improper Chewing", value: "Improper Chewing" }, { text: "Proper Chewing", value: "Proper Chewing" }] },
+            { feature: "Hunger", question: "What describes your Hunger?", options: [{ text: "Skips Meal", value: "Skips Meal" }, { text: "Sudden and Sharp", value: "Sudden and Sharp" }, { text: "Irregular", value: "Irregular" }] },
+            { feature: "Body Temperature", question: "What describes your Body Temperature?", options: [{ text: "Less than Normal", value: "Less than Normal" }, { text: "Normal", value: "Normal" }, { text: "More than Normal", value: "More than Normal" }] },
+            { feature: "Joints", question: "What describes your Joints?", options: [{ text: "Weak", value: "Weak" }, { text: "Heavy", value: "Heavy" }, { text: "Healthy", value: "Healthy" }] },
+            { feature: "Nature", question: "What describes your Nature?", options: [{ text: "Forgiving,Grateful", value: "Forgiving,Grateful" }, { text: "Jealous,Fearful", value: "Jealous,Fearful" }, { text: "Egoistic,Fearless", value: "Egoistic,Fearless" }] },
+            { feature: "Body Energy", question: "What describes your Body Energy?", options: [{ text: "Medium", value: "Medium" }, { text: "Low", value: "Low" }, { text: "High", value: "High" }] },
+            { feature: "Quality of Voice", question: "What describes your Quality of Voice?", options: [{ text: "Deep", value: "Deep" }, { text: "Fast", value: "Fast" }, { text: "Rough", value: "Rough" }] },
+            { feature: "Dreams", question: "What describes your Dreams?", options: [{ text: "Sky", value: "Sky" }, { text: "Fire", value: "Fire" }, { text: "Water", value: "Water" }] },
+            { feature: "Social Relations", question: "What describes your Social Relations?", options: [{ text: "Ambivert", value: "Ambivert" }, { text: "Introvert", value: "Introvert" }, { text: "Extrovert", value: "Extrovert" }] },
+            { feature: "Body Odor", question: "What describes your Body Odor?", options: [{ text: "Strong", value: "Strong" }, { text: "Negligible", value: "Negligible" }, { text: "Mild", value: "Mild" }] }
+        ]
+    }
+};
